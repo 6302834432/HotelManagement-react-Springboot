@@ -3,6 +3,8 @@ package com.Srinivas.Backend.Model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +16,9 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "users")
-public class Users implements UserDetails {
+public class User implements UserDetails {
+    @Setter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +31,11 @@ public class Users implements UserDetails {
     private String password;
     @NotBlank(message = "phone number is required")
     private String phoneNumber;
+    @Setter
+    @Getter
     private String role;
+    @Setter
+    @Getter
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
@@ -38,7 +46,7 @@ public class Users implements UserDetails {
 
     @Override
     public String getPassword() {
-        return getPassword();
+        return password;
     }
 
     @Override
@@ -92,6 +100,7 @@ public class Users implements UserDetails {
     public void setEmail(@NotBlank(message = "Email is required") String email) {
         this.email = email;
     }
+
 }
 
 
