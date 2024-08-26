@@ -1,7 +1,6 @@
 package com.Srinivas.Backend.Controller;
 
 import com.Srinivas.Backend.Dto.Response;
-import com.Srinivas.Backend.Model.User;
 import com.Srinivas.Backend.Service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

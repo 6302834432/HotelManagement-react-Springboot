@@ -52,10 +52,11 @@ public class SecConfig {
     BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-//    @Bean
-//    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration){
-//        return new AuthenticationConfiguration().getAuthenticationManager();
-//
-//    }
+    @Bean
+   public  AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+
+    }
+
 
 }
