@@ -10,7 +10,7 @@ import java.util.List;
 public class RoomDto {
     private Long id;
     private String roomType;
-    private Long roomPrice;
+    private BigDecimal roomPrice;
     private String roomPhotoUrl;
     private String roomDescription;
     private List<BookingDto> bookings;
