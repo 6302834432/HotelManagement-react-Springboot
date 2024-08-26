@@ -7,6 +7,7 @@ import com.Srinivas.Backend.Model.Booking;
 import com.Srinivas.Backend.Model.Room;
 import com.Srinivas.Backend.Model.User;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,17 +36,34 @@ public class Utils {
     public static List<RoomDto> maprooomListEntityToRoomListDTO(List<Room> roomList) {
         return roomList.stream().map(Utils::maprooomDtoFromRoom).collect(Collectors.toList());
     }
-    public  static BookingDto mapbookingDtoFromBooking(Booking booking) {
-        BookingDto bookingDto=new BookingDto();
-        bookingDto.setId(booking.getId());
-        bookingDto.setNumOfAdults(booking.getNumOfAdults());
-        bookingDto.setNumOfChildren(booking.getNumOfChildren());
-        bookingDto.setCheckInDate(booking.getCheckInDate());
-        bookingDto.setCheckOutDate(booking.getCheckOutDate());
-        bookingDto.setBookingConfirmationCode(booking.getBookingConfirmationCode());
-        bookingDto.setTotalNumOfGuest(booking.getTotalNumOfGuest());
-        return bookingDto;
+    public static BookingDto mapBookingEntityToBookingDto(Booking booking) {
+        BookingDto bookingDTO = new BookingDto();
+        // Map simple fields
+        bookingDTO.setId(booking.getId());
+        bookingDTO.setCheckInDate(booking.getCheckInDate());
+        bookingDTO.setCheckOutDate(booking.getCheckOutDate());
+        bookingDTO.setNumOfAdults(booking.getNumOfAdults());
+        bookingDTO.setNumOfChildren(booking.getNumOfChildren());
+        bookingDTO.setTotalNumOfGuest(booking.getTotalNumOfGuest());
+        bookingDTO.setBookingConfirmationCode(booking.getBookingConfirmationCode());
+        return bookingDTO;
+    }
+    public static List<BookingDto> mapBookingDtoListFromBookingList(List<Booking> bookings){
+        return bookings.stream().map(Utils::mapBookingEntityToBookingDto).collect(Collectors.toList());
     }
 
 
+    private static final String ALPHANUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final SecureRandom secureRandom = new SecureRandom();
+
+
+    public static String generateRandomConfirmationCode(int length) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int randomIndex = secureRandom.nextInt(ALPHANUMERIC_STRING.length());
+            char randomChar = ALPHANUMERIC_STRING.charAt(randomIndex);
+            stringBuilder.append(randomChar);
+        }
+        return stringBuilder.toString();
+    }
 }

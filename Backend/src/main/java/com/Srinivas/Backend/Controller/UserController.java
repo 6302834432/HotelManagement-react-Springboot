@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 
-
 public class UserController {
     private final UserService userService;
     public UserController(UserService userService) {
@@ -22,21 +21,11 @@ public class UserController {
 
 
     @GetMapping("/all")
-    @PreAuthorize("ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Response> getAllUsers() {
         Response response = userService.getAllUsers();
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
-
-
-
-
-    @PostMapping("/register")
-    public ResponseEntity<Response> addUser(@RequestBody User user) {
-        Response response =userService.register(user);
-        return ResponseEntity.status(response.getStatusCode()).body(response);
-    }
-
 
 
     @GetMapping("/get-by-id/{userid}")
