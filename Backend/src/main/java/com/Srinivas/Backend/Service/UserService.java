@@ -1,5 +1,6 @@
 package com.Srinivas.Backend.Service;
 
+import com.Srinivas.Backend.Dto.LoginRequest;
 import com.Srinivas.Backend.Dto.Response;
 import com.Srinivas.Backend.Dto.UserDto;
 import com.Srinivas.Backend.Exception.OurException;
@@ -7,6 +8,7 @@ import com.Srinivas.Backend.Model.User;
 import com.Srinivas.Backend.Repository.UserRepo;
 import com.Srinivas.Backend.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,6 +62,12 @@ public class UserService {
         return getResponse(userid);
     }
 
+    public Response Login(LoginRequest loginRequest){
+        Response response=new Response();
+        try{
+            authentica
+        }
+    }
     public  Response register(User user){
         Response response = new Response();
         try{
