@@ -6,7 +6,6 @@ import com.Srinivas.Backend.Exception.OurException;
 import com.Srinivas.Backend.Model.User;
 import com.Srinivas.Backend.Repository.UserRepo;
 import com.Srinivas.Backend.Utils.Utils;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,8 @@ public class UserService {
        }
        return response;
     }
-    public Response GetById(String userid){
+
+    private Response getResponse(String userid) {
         Response response = new Response();
         try{
             User user = userRepo.findById(Long.valueOf(userid)).orElseThrow(() -> new OurException("User Not Found"));
@@ -40,12 +40,26 @@ public class UserService {
             response.setMessage("Success");
             response.setUser(userDto);
         }
+        catch (OurException e){
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        }
         catch (Exception e){
             response.setStatusCode(500);
             response.setMessage("Error while getting User "+e.getMessage());
         }
         return response;
     }
+    public Response UserBookingHistory(String userid){
+        return getResponse(userid);
+    }
+    public  Response GetUserInfo(String userid){
+        return getResponse(userid);
+    }
+    public Response GetById(String userid){
+        return getResponse(userid);
+    }
+
     public  Response register(User user){
         Response response = new Response();
         try{
@@ -70,4 +84,25 @@ public class UserService {
             return response;
 
     }
+    public Response DeleteUser(String userid){
+        Response response = new Response();
+        try{
+            User user = userRepo.findById(Long.valueOf(userid)).orElseThrow(() -> new OurException("User Not Found"));
+            userRepo.delete(user);
+            response.setStatusCode(200);
+            response.setMessage("Success");
+
+        }
+        catch (OurException e){
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        }
+        catch (Exception e){
+            response.setStatusCode(500);
+            response.setMessage("Error while deleting User "+e.getMessage());
+        }
+        return response;
+    }
+//    @Override
+
 }
