@@ -58,7 +58,7 @@ public class UserService {
         Response response = new Response();
         try{
             User user=userRepo.findByEmail(email ).orElseThrow(()->new OurException(("User Not Found")));
-            UserDto userDto= Utils.getUserDtoFromUser(user);
+            UserDto userDto= Utils.mapUserEntityToUserDTOPlusUserBookingsAndRoom(user);
             response.setStatusCode(200);
             response.setMessage("Success");
             response.setUser(userDto);

@@ -49,7 +49,6 @@ public class BookingService {
             response.setMessage("successful");
             response.setBookingConfirmationCode(bookingConfirmationCode);
 
-
         }
         catch (OurException e){
             response.setStatusCode(404);
@@ -66,8 +65,9 @@ public class BookingService {
 
     public Response GetAllBookings(){
         Response response = new Response();
+            System.out.println("Bookings");
         try{
-            List<Booking> bookings = bookingRepo.findAll(Sort.by(Sort.Direction.DESC, "date"));
+            List<Booking> bookings = bookingRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
             List<BookingDto> bookingDtos = Utils.mapBookingDtoListFromBookingList(bookings);
             response.setStatusCode(200);
             response.setMessage("Success");
@@ -78,8 +78,10 @@ public class BookingService {
             response.setMessage(e.getMessage());
         }
         catch (Exception e){
+            e.printStackTrace();
             response.setStatusCode(500);
             response.setMessage("Error while getting Bookings"+e.getMessage());
+//            System.out.println(bookingRepo.findAll());
         }
         return response;
     }
@@ -107,7 +109,7 @@ public class BookingService {
         Response response = new Response();
         try{
             Booking booking =bookingRepo.findByBookingConfirmationCode(confirmationCode).orElseThrow(()->new OurException("Booking not saved"));
-            BookingDto bookingDto=Utils.mapBookingEntityToBookingDto(booking);
+            BookingDto bookingDto=Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking,true);
             response.setStatusCode(200);
             response.setMessage("Success");
             response.setBooking(bookingDto);
@@ -117,6 +119,7 @@ public class BookingService {
             response.setMessage("Booking not found");
         }
         catch (Exception e){
+            e.printStackTrace();
             response.setStatusCode(500);
             response.setMessage("Error while getting Booking"+e.getMessage());
         }
