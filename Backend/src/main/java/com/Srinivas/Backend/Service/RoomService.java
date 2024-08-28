@@ -70,6 +70,38 @@ public class RoomService {
         return response;
     }
 
+    public Response updateRoom(Long roomId, String description, String roomType, BigDecimal roomPrice, MultipartFile photo) {
+        Response response = new Response();
+
+        try {
+            String imageUrl = null;
+            if (photo != null && !photo.isEmpty()) {
+                imageUrl = fileServiceImpl.uploadImage(path,photo);
+            }
+            Room room = roomRepo.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
+            if (roomType != null) room.setRoomType(roomType);
+            if (roomPrice != null) room.setRoomPrice(roomPrice);
+            if (description != null) room.setRoomDescription(description);
+            if (imageUrl != null) room.setRoomPhotoUrl(imageUrl);
+
+            Room updatedRoom = roomRepo.save(room);
+            RoomDto roomDTO = Utils.maprooomDtoFromRoom(updatedRoom);
+
+            response.setStatusCode(200);
+            response.setMessage("successful");
+            response.setRoom(roomDTO);
+
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error saving a room " + e.getMessage());
+        }
+        return response;
+    }
+
+
 
     public Response GetAllRooms() {
         Response response = new Response();
