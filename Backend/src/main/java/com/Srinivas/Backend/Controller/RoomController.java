@@ -5,6 +5,7 @@ import com.Srinivas.Backend.Service.RoomService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,12 +21,13 @@ public class RoomController {
 
     @PostMapping("/add")
     public ResponseEntity<Response> AddRoom(
+            @RequestParam (value = "image",required = false) MultipartFile imageUrl,
             @RequestParam(value = "roomType", required = false) String roomType,
             @RequestParam(value = "roomPrice", required = false) BigDecimal roomPrice,
             @RequestParam(value = "roomDescription", required = false) String roomDescription
     ) {
         System.out.println("Data room:" + roomType + roomPrice + roomDescription);
-        Response response = roomService.AddRooom(roomType, roomPrice, roomDescription);
+        Response response = roomService.AddRooom(imageUrl,roomType, roomPrice, roomDescription);
         return ResponseEntity.status(response.getStatusCode()).body(response);
 
     }

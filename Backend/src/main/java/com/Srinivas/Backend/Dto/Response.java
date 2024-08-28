@@ -2,7 +2,6 @@ package com.Srinivas.Backend.Dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import org.springframework.security.core.userdetails.User;
 import java.util.List;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)

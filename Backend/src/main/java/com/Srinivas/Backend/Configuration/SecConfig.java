@@ -31,7 +31,7 @@ public class SecConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/**", "/rooms/**", "/bookings/**").permitAll()
+                        .requestMatchers("/auth/**", "/rooms/**", "/bookings/**","images/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

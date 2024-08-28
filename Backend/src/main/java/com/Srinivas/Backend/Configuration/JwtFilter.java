@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
     CustomUserDetailsService customUserDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String userEmail =null;
+        String userEmail ;
         String token;
         String Authheader=request.getHeader("Authorization");
 
@@ -34,16 +33,12 @@ public class JwtFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-//        System.out.println("token is"+Authheader);
             token = Authheader.substring(7);
-        System.out.println(token);
             userEmail = jwtUtils.extractUsername(token);
-        System.out.println("Email"+userEmail);
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(userEmail);
                 if (jwtUtils.isValidToken(token, userDetails)) {
-                    System.out.println("token validation"+jwtUtils.isValidToken(token, userDetails));
                     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
                     UsernamePasswordAuthenticationToken jwttoken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     jwttoken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
